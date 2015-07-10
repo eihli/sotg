@@ -5,7 +5,7 @@ var knex = require('knex')({
   connection: process.env.CLEARDB_DATABASE_URL || {
     host: config.host,
     user: config.user,
-    // password: config.password,
+    password: config.password,
     database: config.database,
     charset: 'utf8'
   }
