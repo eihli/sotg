@@ -16,6 +16,15 @@ describe('User', function() {
 
   //create the user then call the it functions
   before(function(next) {
+    var app = require('../../../server/server.js');
+    var port = 8000;
+    var server;
+    before(function(done) {
+      server = app.listen(port);
+      setTimeout(function() {
+        done();
+      }, 1000);
+    });
     db.truncateAllTables(function() {
       new User({
           username: USER,
