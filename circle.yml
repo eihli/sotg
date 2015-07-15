@@ -14,7 +14,11 @@ test:
   override:
     - grunt test
 deployment:
-  production:
-    branch: deployment
+  staging:
+    branch: master
     commands:
-      - eb deploy thesis-dev --timeout 10
+      - eb deploy thesis-staging --timeout 10
+  production:
+    branch: production
+    commands:
+      - eb deploy thesis-production --timeout 10
