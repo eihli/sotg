@@ -50,7 +50,7 @@ module.exports = {
       resultArray = results.map(function(el) {
         return el.get('keyword');
       });
-      res.json(resultArray)
+      res.json(resultArray);
     });
   }
 };

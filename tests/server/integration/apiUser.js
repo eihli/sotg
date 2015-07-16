@@ -43,7 +43,7 @@ describe('User Integration', function() {
 
       request(options, function(error, res, body) {
         new User({
-            username: USER
+            username: USER,
           })
           .fetch()
           .then(function(user) {

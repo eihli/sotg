@@ -4,6 +4,9 @@ var User = require('./userModel.js'),
   db = require('../db/schema.js'),
   utils = require('../config/utils.js');
 
+// Create an empty Bookshelf User model to interact with the database.
+User = new User();
+
 //globals
 //TODO get a better phrase
 var SECRET = 'superDupperSecret';
@@ -22,28 +25,13 @@ module.exports = {
   signin: function(req, res, next) {
     var username = req.body.username,
       password = req.body.password;
-      
-    new User({
-        username: username
-      })
-      .fetch()
-      .then(function(user) {
-        if (!user) {
-          next(new Error('User does not exist'));
-        } else {
-          return user.comparePassword(password, function(foundUser) {
-            if (foundUser) {
-              var token = jwt.encode(user, SECRET);
-              res.json({
-                token: token
-              });
-            } else {
-              return next(new Error('Bad User/Password combonation'));
-            }
-          });
-        }
-      });
-
+    
+    User.authenticate({
+      username: username,
+      password: password
+    }, function(response) {
+      console.log(response);
+    });
   },
 
   /** signup */
@@ -51,32 +39,17 @@ module.exports = {
   signup: function(req, res, next) {
     var username = req.body.username,
         password = req.body.password;
-
+        
+    // Validate inside the controller
     if (utils.validateEmail(username)) {
-      // check to see if user already exists
-      new User({
-          username: username
-        })
-        .fetch()
-        .then(function(user) {
-          if (user) {
-            next(new Error('User already exist!'));
-          } else {
-            // make a new user if not one
-            new User({
-              username: username,
-              password: password
-            }).save().then(function(newUser) {
-              // create token to send back for auth
-              var token = jwt.encode(user, SECRET);
-              res.json({
-                token: token
-              });
-
-              return newUser;
-            });
-          }
-        });
+      // Interact with the database inside the model
+      User.addUser({
+        username: username,
+        password: password
+      }, function(token) {
+        // The model is currently returning a token. TODO: Handle it.
+        console.log(token);
+      });
     } else {
       return next(new Error('Username should be a valid email'));
     }
