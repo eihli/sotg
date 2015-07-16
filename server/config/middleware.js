@@ -7,6 +7,7 @@ module.exports = function(app, express) {
   //routes
   var userRouter = express.Router();
   var apiRouter = express.Router();
+  var keywordRouter = express.Router();
 
   app.use(morgan('dev'));
   app.use(bodyParser.urlencoded({
@@ -17,6 +18,7 @@ module.exports = function(app, express) {
 
   app.use('/users', userRouter); 
   app.use('/api', apiRouter);
+  app.use('/api/keywords', keywordRouter);
  
   app.all('/*', function(req, res, next) {
       res.sendFile(path.resolve('client/index.html'));
@@ -28,4 +30,5 @@ module.exports = function(app, express) {
   // inject our routers into their respective route files
   require('../users/userRoutes.js')(userRouter);
   require('../api/apiRoutes.js')(apiRouter);
+  require('../keywords/keywordRoutes.js')(keywordRouter);
 };

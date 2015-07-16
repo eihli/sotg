@@ -29,7 +29,9 @@ db.knex.schema.hasTable('User').then(function(exists) {
 db.knex.schema.hasTable('Tweet').then(function(exists) {
   if(!exists) {
     db.knex.schema.createTable('Tweet', function(tweet) {
-      // tweet.integer('id');
+      // tweed IDs come back as strings because they are too large
+      // for JS ints. But bookshelf doesn't let you store 'id'
+      // as a string because it's a reserved word for ints only
       tweet.string('tweetId').primary();
       tweet.string('userId');
       tweet.string('text');
@@ -39,6 +41,19 @@ db.knex.schema.hasTable('Tweet').then(function(exists) {
       tweet.string('tweetCreatedAt');
       //hashtags as a foreign key
       tweet.text('entities');
+    }).then(function(table) {
+      console.log('Created table', table);
+    });
+  }
+});
+
+db.knex.schema.hasTable('Keyword').then(function(exists) {
+  if(!exists) {
+    db.knex.schema.createTable('Keyword', function(keyword) {
+      keyword.increments('id').primary();
+      keyword.string('keyword');
+      keyword.integer('streamId');
+      keyword.timestamps();
     }).then(function(table) {
       console.log('Created table', table);
     });
