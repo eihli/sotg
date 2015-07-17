@@ -1,7 +1,10 @@
-var db = require('../db/schema'),
+var db = require('../config/db.js'),
   utils = require('../config/utils.js'),
   bcrypt = require('bcrypt-nodejs'),
-  Promise = require('bluebird');
+  Promise = require('bluebird'),
+  jwt = require('jwt-simple');
+// TODO: Secret
+var SECRET = 'SECRET';
 /**
  * Creates a new User
  * @class
@@ -46,6 +49,44 @@ var User = db.Model.extend({
       });
   },
 
+  addUser: function(user, callback) {
+    new User({username: user.username})
+    .fetch()
+    .then(function(foundUser) {
+      if (foundUser) {
+        callback(new Error('User already exist!'));
+      } else {
+        // make a new user if not one
+        new User(user)
+        .save()
+        .then(function(newUser) {
+          // create token to send back for auth
+          var token = jwt.encode(user, SECRET);
+          callback(token);
+        });
+      }
+    });
+  },
+
+  authenticate: function(user, callback) {
+    new User({username: user.username})
+    .fetch()
+    .then(function(foundUser) {
+      if (!foundUser) {
+        callback(new Error('User does not exist'));
+      } else {
+        bcrypt.compare(user.password, foundUser.get('password'), function(err, isMatch) {
+          if (err) {
+            console.log("Error comparing passwords.");
+            callback(new Error('Error comparing passwords.'));
+          } else {
+            var token = jwt.encode(foundUser, SECRET);
+            callback({token: token});
+          }
+        });
+      }
+    });
+  },
   /** 
    * Compares a password with the password stored in the database
    *@function

@@ -49,6 +49,10 @@
 - Run ``npm start`` to launch server
 - The console will tell you what port the server is running on
 
+### Connecting to Elastic Beanstalk Instances
+- Find the IP address of the environment in the EC2 Instances console of the AWS management page.
+- ``ssh -i ~/path/to/username.pem ec2-user@ip-address``
+
 ## Contributing
 1. Fork
   - Clone from your GitHub fork

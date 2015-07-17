@@ -1,12 +1,19 @@
-var credentials = require('./config.js'),
-  request = require('request'),
+var request = require('request'),
+  fs = require('fs'),
   Twit = require('twit'),
   Timer = require('timer-stopwatch'),
-  API_ADDRESS = process.env.API_ADDRESS || 'localhost',
-  HANDLER_ADDRESS = process.env.HANDLER_ADDRESS || 'localhost',
+  credentials = process.env.CONSUMER_KEY ? null : require('./config.js'),
+  API_ADDRESS = process.env.API_ADDRESS || '127.0.0.1',
+  HANDLER_ADDRESS = process.env.HANDLER_ADDRESS || '127.0.0.1',
   API_PORT = process.env.API_PORT || 8000, 
   HANDLER_PORT = process.env.HANDLER_PORT || 6000; //All handler 
 
+credentials = credentials || {
+  consumer_key: process.env.CONSUMER_KEY, 
+  consumer_secret: process.env.CONSUMER_SECRET, 
+  access_token: process.env.ACCESS_TOKEN, 
+  access_token_secret: process.env.TOKEN_SECRET
+};
 
 var T = new Twit(credentials);
 
@@ -26,52 +33,56 @@ var T = new Twit(credentials);
 //option 1: turn on sample
 //option 2: get tweets by current popular trends? 
 
-var startTimer = function() {
-  return new Timer(15 * 1000 * 60, {
+//set globals 
+var timer = null, stream = null, keywords = [];
+
+var createTimer = function() {
+  timer = new Timer((15 * 1000 * 60), {
     almostDoneMS: 10000
   });
+ 
+  timer.on('almostdone', function() {
+    stream.stop();
+  });
+
+  timer.on('done', function() {
+    createTimer();
+    timer.start();
+    startStream();
+  });
 };
-
-var timer = startTimer();
-stream = null;
-
-timer.on('almostdone', function() {
-  stream.stop();
-});
-
-timer.on('done', function() {
-  timer = startTimer();
-  startStream();
-});
 
 var startStream = function() {
   var options = {
     'method': 'GET',
-    'uri': API_ADDRESS + ':' + API_PORT + '/getKeywords',
+    'uri': 'http://' + API_ADDRESS + ':' + API_PORT + '/api/keywords',
+    'json' : {
+      streamId: 1
+    }
   };
 
   request(options, function(error, res, body) {
+    console.log(body);
     if (error) {
       console.error(error);
-    } else if (body === null) {
+    } else if (body.length === 0) {
       stream = T.stream('statuses/sample');
       initStream(stream);
     } else {
       stream = T.stream('statuses/filter', {
-        track: trackArray 
+        track: body
       });
       initStream(stream);
     }
   });
-
 };
 
 var initStream = function(stream) {
   stream.on('tweet', function(tweet) {
-    //make a POST request to tweet handler, with tweet contents
+    //make a DELETE request to tweet handler, with tweet contents
     var options = {
       'method': 'POST',
-      'uri': HANDLER_ADDRESS + ':' + HANDLER_PORT + '/tweet',
+      'uri': 'http://' + HANDLER_ADDRESS + ':' + HANDLER_PORT + '/tweets',
       'json': tweet
     };
 
@@ -83,10 +94,10 @@ var initStream = function(stream) {
   });
 
   stream.on('delete', function(deleteMessage) {
-    //make a DELETE request to tweet handler, with deleteMessage
+    //make a POST request to tweet handler, with deleteMessage
     var options = {
       'method': 'DELETE',
-      'uri': HANDLER_ADDRESS + ':' + HANDLER_PORT + '/tweet',
+      'uri': 'http://' + HANDLER_ADDRESS + ':' + HANDLER_PORT + '/tweets',
       'json': deleteMessage
     };
 
@@ -101,7 +112,7 @@ var initStream = function(stream) {
     //make a POST request to tweet handler, with geoMessage
     var options = {
       'method': 'POST',
-      'uri': HANDLER_ADDRESS + ':' + HANDLER_PORT + '/tweet/scrubGeo',
+      'uri': 'http://' + HANDLER_ADDRESS + ':' + HANDLER_PORT + '/tweets/scrubGeo',
       'json': scrubGeoMessage
     };
   });
@@ -111,4 +122,9 @@ var initStream = function(stream) {
   });
 };
 
+//init global timer, start timer
+createTimer();
+timer.start();
+
+//init global stream
 startStream();

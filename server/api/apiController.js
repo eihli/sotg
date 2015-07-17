@@ -1,5 +1,5 @@
 var db = require('../db/schema.js'),
-  utils = require('../config/utils.js');
+  queue = require('../utils/queue.js');
 
 module.exports = {
   getKey: function(req, res, next) {
@@ -49,19 +49,5 @@ module.exports = {
     console.log('time_range: ' + time_range);
     console.log('keyword: ' + keyword);
     console.log('api_key: ' + api_key);
-  },
-  addKeyword: function(req, res, next) {
-    var keyword = req.query.keyword,
-      api_key = req.query.api_key;
-
-    console.log('keyword: ' + keyword);
-    console.log('api_key: ' + api_key);
-  },
-  getKeywords: function(req, res, next) {
-    var api_key = req.query.api_key,
-      number = req.query.number;
-
-    console.log('api_key: ' + api_key);
-    console.log('number: ' + number);
   }
 };

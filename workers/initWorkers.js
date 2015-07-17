@@ -1,15 +1,19 @@
-var express = require('express');
-var AWS = require('aws-sdk');
-var partials = require('express-partials');
-var port = 8000;
-var key = 'AWS_Key';
-var sec = 'AWS_Secret';
+var express = require('express'),
+  AWS = require('aws-sdk'),
+  partials = require('express-partials'),
+  port = 8000,
+  key = process.env.AWS_SPAWNER_KEY,
+  sec = process.env.AWS_SPAWNER_SECRET,
+  versionNum = 1,
+  appName = 'sotgWorker' + versionNum,
+  environmentNum = 1,
+  environmentName = 'workerEnvironment' + environmentNum;
 
 var elasticbeanstalk = new AWS.ElasticBeanstalk({accessKeyId: key, 
   secretAccessKey: sec, region: 'us-west-2'});
 
 var params = {
-  ApplicationName: 'SotgWorker',
+  ApplicationName: appName,
   Description: 'Initialize Worker',
   AutoCreateApplication: true,
   VersionLabel: '1.0',
@@ -20,8 +24,8 @@ var params = {
 };
 
 var params2 = {
-  ApplicationName: 'SotgWorker', /* required */
-  EnvironmentName: 'workerEnvironment',
+  ApplicationName: appName, /* required */
+  EnvironmentName: environmentName,
   VersionLabel: '1.0',
   SolutionStackName: '64bit Amazon Linux 2015.03 v1.4.4 running Node.js'
 };
@@ -31,11 +35,17 @@ var testEb = function(){
     elasticbeanstalk.createApplicationVersion(params, function(err, data) {
     if (err){
     console.log(err, err.stack);
-    } else{
+    } else {
       console.log(data);
       elasticbeanstalk.createEnvironment(params2, function(err, data) {
-        if (err) console.log(err, err.stack); // an error occurred
-        else     console.log(data);           // successful response
+        if (err) {
+          console.log(err, err.stack);
+        } else {
+          console.log(data);
+          //increment version and environment to enable more workers to spawn
+          versionNum++;
+          environmentNum++;
+        }           
       });
     }
   });

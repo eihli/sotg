@@ -8,7 +8,6 @@ streaming/config.js
 build/
 dist/
 docs/
-start.sh
 server/db/config.js
 
 # Elastic Beanstalk Files

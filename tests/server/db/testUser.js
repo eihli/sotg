@@ -1,6 +1,6 @@
 var User = require('../../../server/users/userModel.js'),
+  schema = require('../../../server/db/schema.js'),
   db = require('../../../server/config/db.js'),
-  Q = require('q'),
   should = require('chai').should();
 
 /**
@@ -9,22 +9,23 @@ var User = require('../../../server/users/userModel.js'),
  */
 
 describe('User', function() {
-  
+
   var user;
   var PASS = 'password';
   var USER = 'user';
+
   //create the user then call the it functions
-  before(function(next) {
-    db.truncateAllTables(function() {
+  before(function(done) {
+    schema.truncateAllTables(function() {
       new User({
-          username: USER,
-          password: PASS
-        })
-        .save()
-        .then(function(model) {
-          user = model;
-          next();
-        });
+        username: USER,
+        password: PASS
+      })
+      .save()
+      .then(function(model) {
+        user = model;
+        done();
+      });
     });
   });
 
@@ -38,19 +39,17 @@ describe('User', function() {
   });
 
   it('should compare correct passwords', function(next) {
-    user
-      .comparePassword(PASS, function(isMatch) {
-        isMatch.should.equal(true);
-        next();
-      });
+    user.comparePassword(PASS, function(isMatch) {
+      isMatch.should.equal(true);
+      next();
+    });
   });
 
   it('should compare incorrect passwords', function(next) {
-    user
-      .comparePassword('notthepass', function(isMatch) {
-        isMatch.should.equal(false);
-        next();
-      });
+    user.comparePassword('notthepass', function(isMatch) {
+      isMatch.should.equal(false);
+      next();
+    });
   });
 
 });
