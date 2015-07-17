@@ -80,7 +80,8 @@ var User = db.Model.extend({
             console.log("Error comparing passwords.");
             callback(new Error('Error comparing passwords.'));
           } else {
-            callback(isMatch);
+            var token = jwt.encode(foundUser, SECRET);
+            callback({token: token});
           }
         });
       }

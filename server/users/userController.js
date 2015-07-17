@@ -29,8 +29,13 @@ module.exports = {
     User.authenticate({
       username: username,
       password: password
-    }, function(response) {
-      console.log(response);
+    }, function(err, response) {
+      if (err) {
+        res.status(400);
+        res.send(err);
+      } else {
+        res.send(response);
+      }
     });
   },
 
@@ -39,16 +44,21 @@ module.exports = {
   signup: function(req, res, next) {
     var username = req.body.username,
         password = req.body.password;
-        
+
     // Validate inside the controller
     if (utils.validateEmail(username)) {
       // Interact with the database inside the model
       User.addUser({
         username: username,
         password: password
-      }, function(token) {
-        // The model is currently returning a token. TODO: Handle it.
-        console.log(token);
+      }, function(err, resposne) {
+        if (err) {
+          res.status(400);
+          res.send(err);
+        } else {
+          // The model is currently returning a token. TODO: Handle it.
+          res.send(response);
+        }
       });
     } else {
       return next(new Error('Username should be a valid email'));

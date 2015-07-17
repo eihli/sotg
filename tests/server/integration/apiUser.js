@@ -101,7 +101,7 @@ describe('User Integration', function() {
     it('Signin to a user record', function(next) {
       var options = {
         'method': 'POST',
-        'uri': 'http://127.0.0.1:' + PORT + '/users/signin',
+        'uri': 'http://localhost:' + PORT + '/users/signin',
         'json': {
           'username': USER,
           'password': PASS,
@@ -118,7 +118,7 @@ describe('User Integration', function() {
     it('Signin should reject a bad username/password combo', function(next) {
       var options = {
         'method': 'POST',
-        'uri': 'http://127.0.0.1:' + PORT + '/users/signin',
+        'uri': 'http://localhost:' + PORT + '/users/signin',
         'json': {
           'username': 'userNotAnEmail',
           'password': PASS,
@@ -126,7 +126,7 @@ describe('User Integration', function() {
       };
 
       request(options, function(error, res, body) {
-        should.exist(res.body.error);
+        res.statusCode.should.equal(400);
         next();
       });
     });
