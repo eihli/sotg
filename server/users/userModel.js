@@ -3,7 +3,7 @@ var db = require('../db/schema'),
   bcrypt = require('bcrypt-nodejs'),
   Promise = require('bluebird'),
   jwt = require('jwt-simple'),
-  Kewyword = require('../api/keywordModel.js'),
+  Keyword = require('../api/keywordModel.js'),
   uuid = require('uuid');
 
 /**

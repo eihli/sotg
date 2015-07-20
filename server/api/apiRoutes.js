@@ -9,4 +9,5 @@ module.exports = function(app) {
   app.get('/time', middleware.authAPIKey, apiController.getTimeRange);
   app.post('/keywords', middleware.authAPIKey, keywordController.addKeyword);
   app.get('/keywords', keywordController.getKeywords);
+  app.delete('/keywords', keywordController.deleteKeyword);
 };

@@ -96,8 +96,8 @@ db.knex.schema.hasTable('Keyword').then(function(exists) {
 db.knex.schema.hasTable('keyword_user').then(function(exists) {
   if (!exists) {
     db.knex.schema.createTable('keyword_user', function(table) {
-      table.integer('User_id').unsigned().references('User.id');
-      table.integer('Keyword_id').unsigned().references('Keyword.id');
+      table.integer('User_id').unsigned().references('User.id').onDelete('CASCADE');
+      table.integer('Keyword_id').unsigned().references('Keyword.id').onDelete('CASCADE');
     }).then(function(table) {
       console.log('Created table keyword_user');
     });

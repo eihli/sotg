@@ -1,11 +1,32 @@
 var Keyword = require('./keywordModel.js'),
+  User = require('../users/userModel.js'),
+  KeywordUser = require('./keywordUserModel.js'),
   db = require('../db/schema.js');
 
+var addKeywordUser = function(apiKey, keyword, callback) {
+  new User({apiKey: apiKey})
+  .fetch()
+  .then(function(user) {
+    new KeywordUser({
+      keyword_id: keyword.get('id'), 
+      user_id: user.get('id')
+    }).upsert(callback);
+  });
+};
+
+var registeredStreams = [1, 2];
+var nextStream = 0;
 
 module.exports = {
 
+  // This is inside module.exports so that we can test it in keywordControllerTests.js
   getLeastUsedStream: function() {
-    return [];
+    var result = nextStream;
+    nextStream++;
+    if (nextStream >= registeredStreams.length) {
+      nextStream = 0;
+    }
+    return result;
   },
 
   // Right now, we are aren't checking to see if this api_key was given to us by an authenticated user.
@@ -15,17 +36,16 @@ module.exports = {
   // makes it to this function, we don't need to worry about the key inside this function.™
   addKeyword: function(req, res, next) {
     var keyword = req.body.keyword,
-      leastUsedStream = getLeastUsedStream();
-    console.log(keyword);
+      apiKey = req.body.apiKey;
+      leastUsedStream = module.exports.getLeastUsedStream();
     new Keyword({
       keyword: keyword
     })
     .fetch()
     .then(function(exists) {
       if (exists) {
-        return next({
-          result: 'update',
-          value: exists.get('keyword')
+        addKeywordUser(apiKey, exists, function() {
+          res.send("Added " + keyword + " and " + apiKey + " to database.");
         });
       } else {
         new Keyword({
@@ -33,14 +53,26 @@ module.exports = {
           streamId: leastUsedStream
         })
         .save()
-        .then(function(keyword) {
-          return next({
-            result: 'insert',
-            value: keyword.get('keyword')
+        .then(function(keywordModel) {
+          addKeywordUser(apiKey, keywordModel, function() {
+            res.send("Inserted " + keywordModel + " and " + apiKey + " to database.");
           });
         });
       }
     });
+  },
+
+  deleteKeyword: function(req, res, next) {
+    var keyword = req.body.keyword,
+    apiKey = req.body.apiKey;
+    new Keyword({
+      keyword: keyword
+    })
+    .fetch()
+    .then(function(model) {
+            
+    });
+    .destroy();
   },
 
   getKeywords: function(req, res, next) {
