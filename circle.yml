@@ -26,4 +26,4 @@ deployment:
   production:
     branch: production
     commands:
-      - eb deploy thesis-production --timeout 10
+      - eb deploy sotg-production --timeout 10
