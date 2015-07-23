@@ -24,6 +24,6 @@ deployment:
     commands:
       - eb deploy sotg-staging --timeout 10
   production:
-    branch: production
+    branch: deployment
     commands:
-      - eb deploy thesis-production --timeout 10
+      - eb deploy sotg-production --timeout 10
