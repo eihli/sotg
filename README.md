@@ -49,6 +49,19 @@
 - Run ``npm start`` to launch server
 - The console will tell you what port the server is running on
 
+### Environment Variables
+
+- Tweet Handler Server
+  - RDS_HOSTNAME
+  - RDS_USERNAME
+  - RDS_PASSWORD
+  - RDS_DB_NAME
+  - API_ADDRESS
+- Stream Server
+  - HANDLER_ADDRESS
+  - HANDLER_PORT
+  - API_ADDRESS
+
 ### Connecting to Elastic Beanstalk Instances
 - Find the IP address of the environment in the EC2 Instances console of the AWS management page.
 - ``ssh -i ~/path/to/username.pem ec2-user@ip-address``

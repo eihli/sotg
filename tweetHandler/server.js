@@ -7,8 +7,8 @@ var app = express(),
 require('./config/middleware.js')(app, express);
 
 module.exports = function(port) {
-  console.log('port', (port||PORT));
-  var server = app.listen(port || PORT); 
+  console.log('Tweet Handler listening on port ', (port || PORT));
+  server = app.listen(port || PORT); 
   return server;
 };
 
