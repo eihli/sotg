@@ -1,10 +1,10 @@
 #!/bin/bash
 if [ "$SERVER_TYPE" == "tweethandler" ]
   then
-  node ./tweetHandler/server.js
+  ./handle.sh
 elif [ "$SERVER_TYPE" == "streaming" ]
   then
-  node ./streaming/server.js
+  ./stream.sh
 else
   node ./server/server.js
 fi
