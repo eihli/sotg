@@ -6,7 +6,10 @@ var tweetController = require('./tweetController.js');
  */
 
  module.exports = function(app) {
-  app.post('/', tweetController.handleInsert);
+  app.post('/', function(req, res, next) {
+    console.log("Calling tweetController.handleInsert");
+    tweetController.handleInsert(req, res, next)
+  });
   app.delete('/', tweetController.handleDelete);
   app.post('/scrubGeo', tweetController.handleScrubGeo);
  }; 

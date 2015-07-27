@@ -2,7 +2,7 @@ var express = require('express');
 
 var app = express(),
   server, 
-  PORT = 6000;  //default port
+  PORT = process.env.HANDLER_PORT || 6000;  //default port
 
 require('./config/middleware.js')(app, express);
 

@@ -59,7 +59,7 @@ var startStream = function() {
     'method': 'GET',
     'uri': 'http://' + API_ADDRESS + ':' + API_PORT + '/api/keywords?streamId=' + key,
   };
-
+  console.log("Starting Stream. Requesting: ", options.toString());
   request(options, function(error, res, body) {
     console.log('Current Keywords:', body);
     if (error) {
@@ -78,13 +78,14 @@ var startStream = function() {
 
 var initStream = function(stream) {
   stream.on('tweet', function(tweet) {
+    console.log("Received tweet. ");
     //make a DELETE request to tweet handler, with tweet contents
     var options = {
       'method': 'POST',
       'uri': 'http://' + HANDLER_ADDRESS + ':' + HANDLER_PORT + '/tweets',
       'json': tweet
     };
-
+    console.log("Posting to: ", JSON.stringify(options.uri));
     request(options, function(error, res, body) {
       if (error) {
         console.error(error);
@@ -131,13 +132,14 @@ var options = {
 };
 
 request(options, function(error, res, body) {
-  key = res.body;
+  // key = res.body;
+  key = '0abab6a5-021b-418e-aba6-a1788a6e9e33';
 
-  if(res.statusCode === 400) {
-    throw new Error(key);
-  } else {
+  // if(res.statusCode === 400) {
+  //   throw new Error(key);
+  // } else {
     console.log('Your Streaming Key: ' + key);
     //init global stream
     startStream();
-  }
+  // }
 });
