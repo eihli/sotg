@@ -4,6 +4,7 @@ var Tweet = require('../tweets/tweetModel.js'),
   async = require('async');
 
 var saveToDB = function(tweet, callback) {
+  console.log("Saving tweet to database.");
   var parsedTweet = {
     tweetId: tweet.id_str,
     userId: tweet.user.id_str,
