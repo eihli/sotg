@@ -23,7 +23,9 @@ deployment:
     branch: master
     commands:
       - eb deploy sotg-staging --timeout 10
+      - aws elasticbeanstalk create-environment --application-name sotg --environment-name sotg-tweet-handler --tier "Name=WebServer,Type=Standard,Version=1.0" --template-name "64bit Amazon Linux 2015.03 v1.4.4 running Node.js"
       - eb deploy sotg-tweet-handler --timeout 10
+      - aws elasticbeanstalk create-environment --application-name sotg --environment-name sotg-streaming --tier "Name=WebServer,Type=Standard,Version=1.0" --template-name "64bit Amazon Linux 2015.03 v1.4.4 running Node.js"
       - eb deploy sotg-streaming --timeout 10
   production:
     branch: production
