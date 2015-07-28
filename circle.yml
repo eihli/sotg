@@ -23,7 +23,7 @@ deployment:
     branch: master
     commands:
       - eb deploy sotg-staging --timeout 10
-      - eb deploy sotg-tweetHandler-env --timeout 10
+      - eb deploy sotg-tweet-handler --timeout 10
       - eb deploy sotg-streaming --timeout 10
   production:
     branch: production
