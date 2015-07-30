@@ -3,8 +3,9 @@
  * @class
  */
 angular.module('sotgFactory', [])
-.factory('Auth', function($http, $location, $window){
+.factory('Auth', function($http, $location, $window, $state){
   var authFactory = {};
+
   /**
  * method to sign up users
  * @function
@@ -72,11 +73,8 @@ angular.module('sotgFactory', [])
       method: 'GET',
       url: 'users/logout'
     })
-    .success(function() {
-      $location.path('/');
-    })
-    .error(function(err){
-      console.log(err);
+    .finally(function() {
+      $state.go('home');
     });
   };
 

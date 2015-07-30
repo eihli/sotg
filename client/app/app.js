@@ -5,7 +5,7 @@ essoteegeeApp.config(function ($stateProvider, $urlRouterProvider, $locationProv
   $urlRouterProvider.otherwise('/');
   $locationProvider.html5Mode(true);
   $stateProvider
-    .state('/',{
+    .state('home',{
       url: '/',
       templateUrl: 'app/views/home.html'
     })

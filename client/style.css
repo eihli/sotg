@@ -1,3 +1,6 @@
+body {
+  height: 100%;
+}
 .bigTitle {
   font-size: 8em !important;
 }
@@ -16,7 +19,7 @@
 }
 
 .main-content {
-  margin-top: 60px !important;
+  padding-top: 70px !important;
 }
 
 #landingImage {
@@ -31,5 +34,15 @@
   background: #1b1c1d;
   color: #f8f8f8;
   -webkit-text-size-adjust: none;
+}
+
+.jsonResult {
+  height: 400px;
+  overflow: scroll;
+}
+
+.urlQuery {
+  font-weight: lighter !important;
+  color: #4D4D4D !important;
 }
 

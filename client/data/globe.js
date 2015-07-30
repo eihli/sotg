@@ -96,15 +96,16 @@ var addDensity = function (data) {
         var geom = new THREE.Geometry();
         // material to use for each of our elements. Could use a set of materials to
         // add colors relative to the density. Not done here.
-        var cubeMat = new THREE.MeshLambertMaterial({color: 0xff0000});
+        var cubeMat = new THREE.MeshLambertMaterial();
+        cubeMat.color = new THREE.Color( 0xff0000 );
         // for (var i = 0 ; i < data.length-1 ; i++) {
  
-            var value = parseFloat(1000);
+            var value = parseFloat(1000); //make it bigger!
  
             // calculate the position where we need to start the cube
             var position = latLongToVector3(data[0], data[1], 200, 2);
             // create the cube
-            var cube = new THREE.Mesh(new THREE.SphereGeometry(5, 10, 10));
+            var cube = new THREE.Mesh(new THREE.SphereGeometry(3, 10, 10), cubeMat);
  
             // position the cube correctly
             cube.lookAt( new THREE.Vector3(0,0,0) );

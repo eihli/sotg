@@ -1,4 +1,4 @@
-<div class="ui grid">
+<div class="ui grid main-content">
   <div class="ten column row">
     <div class="column"></div>
     <div class="left floated left aligned four wide column">
@@ -16,10 +16,10 @@
   </div>
   <div class="centered row">
     <div class="fourteen wide column">
-      <h2 class="ui header" ng-show="$state.is('queryBuilder.search')">http://sotg.xyz/api/search?keyword={{encodedKeyword}}&apiKey={{apiKey}}</h2>
-      <h2 class="ui header" ng-show="$state.is('queryBuilder.keyword')">http://sotg.xyz/api/keywords?keyword={{encodedKeyword}}&apiKey={{apiKey}}</h2>
-      <h2 class="ui header" ng-show="$state.is('queryBuilder.sentiment')">http://sotg.xyz/api/sentiment?keyword={{encodedKeyword}}&sentiment={{sentiment}}&apiKey={{apiKey}}</h2>
-      <h2 class="ui header" ng-show="$state.is('queryBuilder.time')">http://sotg.xyz/api/time?keyword={{encodedKeyword}}&startTime={{startTimeMS}}&endTime={{endTimeMS}}&apiKey={{apiKey}}</h2>
+      <h2 class="ui header urlQuery" ng-show="$state.is('queryBuilder.search')">http://sotg.xyz/api/search?keyword={{encodedKeyword}}&apiKey={{apiKey}}</h2>
+      <h2 class="ui header urlQuery" ng-show="$state.is('queryBuilder.keyword')">http://sotg.xyz/api/keywords?keyword={{encodedKeyword}}&apiKey={{apiKey}}</h2>
+      <h2 class="ui header urlQuery" ng-show="$state.is('queryBuilder.sentiment')">http://sotg.xyz/api/sentiment?keyword={{encodedKeyword}}&sentiment={{sentiment}}&apiKey={{apiKey}}</h2>
+      <h2 class="ui header urlQuery" ng-show="$state.is('queryBuilder.time')">http://sotg.xyz/api/time?keyword={{encodedKeyword}}&startTime={{startTimeMS}}&endTime={{endTimeMS}}&apiKey={{apiKey}}</h2>
       <div class="ui divider"></div> 
     </div>
   </div>
@@ -109,7 +109,7 @@
     <div class="ten wide column">
       <div class="ui inverted segment">
         <h2 class="ui centered header" ng-hide="jsonResult">JSON data will appear here</h2>
-        <div hljs ng-show="jsonResult" source="jsonResult"></div>
+        <div hljs class="jsonResult" ng-show="jsonResult" source="jsonResult"></div>
       </div>
     </div>
   </div>
