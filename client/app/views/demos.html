@@ -1,6 +1,34 @@
-<div class="ui grid main-content">
-  <div ui-sref="demos">Hi demos</div>
-  <div ui-sref="demos.globe">click on globe</div>
-  <div ui-sref="demos.wordcloud">click on wordcloud</div>
+<div ng-controller="demosController as demos" class="ui grid container main-content">
+  <div class="one column centered row">
+    <h1 class="ui huge dividing header">
+      Demos
+      <div class="sub header">See how you can use and analyze our data to build compelling visualizations.</div>
+      <button ng-hide="demos.$state.is('demos')" class="ui green button keywordLabel" ui-sref="demos">Go back to demos main page</button>
+    </h1>
+  </div>
+    <div ng-show="demos.$state.is('demos')" class="one column row">
+      <div class="ui segment">
+          <h2 class="ui huge dividing header">
+          <i class="world icon blue"></i>
+          Globe
+            <div class="sub header">
+            A globe made with <a href="http://threejs.org/" target="_blank">three.js</a> that plots Tweets based on geolocation.
+            </div>
+          </h2>
+        <button class="ui green button" ui-sref="demos.globe">See globe demo</button>
+      </div>
+    </div>
+  <div ng-show="demos.$state.is('demos')" class="one column row">
+    <div class="ui segment">
+        <h2 class="ui huge dividing header">
+        <i class="cloud icon blue"></i>Wordcloud
+          <div class="sub header">
+          A wordcloud made with <a href="http://d3js.org/" target="
+          _blank">D3.js</a> that analyzes a set of Tweets that contain the keyword "pizza." The larger the word in the wordcloud, the more frequently the word appears in Tweets; the more blue the word is, the more positive the sentiment. Redder words have a more negative sentiment value.
+          </div>
+        </h2>  
+      <button class="ui green button" ui-sref="demos.wordcloud">See wordcloud demo</button>
+    </div>
+  </div>
   <div ui-view></div>
 </div>

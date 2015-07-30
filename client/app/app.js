@@ -1,5 +1,5 @@
 var essoteegeeApp = angular.module('essoteegeeApp', ['ui.router', 'sotgFactory', 'queryFactory',
-'loginCtrl', 'signupCtrl', 'profileCtrl', 'resetPasswordCtrl', 'logoutCtrl', 'queryBuilderCtrl','globeCtrl', 'ui.date', 'ngClipboard', 'hljs']);
+'loginCtrl', 'signupCtrl', 'profileCtrl', 'demosCtrl', 'resetPasswordCtrl', 'logoutCtrl', 'queryBuilderCtrl','globeCtrl', 'ui.date', 'ngClipboard', 'hljs']);
 essoteegeeApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider, ngClipProvider, hljsServiceProvider){
 
   $urlRouterProvider.otherwise('/');
