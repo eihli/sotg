@@ -21,7 +21,7 @@ var draw = function (words) {
       .text(function(d) { return d.text; });
 };
 var layout = d3.layout.cloud()
-    .size([1000, 600])
+    .size([1000, 500])
     .words(frequency_list)
     .padding(5)
     .rotate(function() { return ~~(Math.random() * 2) * 90; })
