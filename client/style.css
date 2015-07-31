@@ -45,3 +45,11 @@ body {
   font-weight: lighter !important;
   color: #4D4D4D !important;
 }
+
+.wordCloudSvg {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 2%;
+}
+

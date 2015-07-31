@@ -4,6 +4,7 @@ var fill = d3.scale.linear().domain([-1,1]).range(["red","blue"]);
 
 var draw = function (words) {
   d3.select(".wordCloud").append("svg")
+      .attr("class", "wordCloudSvg")
       .attr("width", layout.size()[0])
       .attr("height", layout.size()[1])
     .append("g")
