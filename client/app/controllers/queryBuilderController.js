@@ -12,7 +12,7 @@ angular.module('queryBuilderCtrl', [])
       $scope.isAuth = false;
       $scope.apiKey = 'Your_API_Key';
     });
-
+  $scope.loading = false;
   $scope.encodedKeyword = 'Pizza';
   $scope.keyword = 'Pizza';
   $scope.sentiment = 'positive';
@@ -48,9 +48,11 @@ angular.module('queryBuilderCtrl', [])
 
   $scope.submitQuery = function() {
     var queryURL = $scope.getQuery().slice(16);
+    $scope.loading = true;
     QueryBuilder.makeQuery(queryURL, $scope.httpVerb, function(data) {
       data = data.slice(0, 50);
       $scope.jsonResult = JSON.stringify(data, null, ' ');
+      $scope.loading = false;
     });
   };
 });

@@ -108,6 +108,9 @@
   <div class="sixteen column centered row">
     <div class="ten wide column">
       <div class="ui inverted segment">
+        <div ng-show="loading" class="ui active dimmer">
+          <div class="ui"><i class="huge loading spinner icon"></i></div>
+        </div>
         <h2 class="ui centered header" ng-hide="jsonResult">JSON data will appear here</h2>
         <div hljs class="jsonResult" ng-show="jsonResult" source="jsonResult"></div>
       </div>

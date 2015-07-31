@@ -75,8 +75,11 @@ module.exports = {
 
         if (Object.keys(keywords).length === 0) {
           console.log('Starting the sample');
-          stream = T.stream('statuses/sample');
-          initStream(stream);
+          stream = T.stream('statuses/filter', {
+            track: [';lkajsdf;lkjasdf;ljkasdf;lkajsdf;lajksdf;lajksdf']
+          });
+          // stream = T.stream('statuses/sample');
+          // initStream(stream);
         } else {
 
           console.log('Current Keys', Object.keys(keywords));
