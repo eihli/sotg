@@ -30,6 +30,9 @@
       </div>
       <p>{{ login.forgotPasswordResponse.error }}</p>
     </div>
+    <div ng-show="login.loading">
+      <i class="huge spinner loading icon"></i>
+    </div>
     <div ng-show="login.forgotPasswordResponse.success" class="ui positive message">
       <i ng-click="login.forgotPasswordResponse = null" class="close icon"></i>
       <div class="header">
