@@ -69,18 +69,6 @@ var onWindowResize = function () {
   renderer.setSize( window.innerWidth, window.innerHeight );
 };
 
-var animate = function () {
-  animateId = requestAnimationFrame( animate );
-  render();
-  controls.update();
-};
-
-var render = function () {
-  camera.lookAt( scene.position );
-  // group.rotation.y -= 0.005;
-  renderer.render( scene, camera );
-
-};
 
 var latLongToVector3 = function (lat, lon, radius, height) {
         var phi = (lat)*Math.PI/180;
@@ -118,13 +106,27 @@ var addDensity = function (data) {
             // THREE.GeometryUtils.merge(geom,sphere);
         }
         // create a new mesh, containing all the other meshes.
-        var total = new THREE.Mesh(geom,new THREE.MeshBasicMaterial({
+       var total = new THREE.Mesh(geom,new THREE.MeshBasicMaterial({
           color: 0xff0000,
           morphTargets: true
         }));
  
         // and add the total mesh to the scene
-        scene.add(total);
+        group.add(total);
+        scene.add(group);
+};
+
+var animate = function () {
+  animateId = requestAnimationFrame( animate );
+  render();
+  controls.update();
+};
+
+var render = function () {
+  camera.lookAt( scene.position );
+  group.rotation.y -= 0.005;
+  renderer.render( scene, camera );
+
 };
 
 init();
