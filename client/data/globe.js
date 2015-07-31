@@ -99,7 +99,7 @@ var addDensity = function (data) {
         // material to use for each of our elements. Could use a set of materials to
         // add colors relative to the density. Not done here.
         // var sphereMat = new THREE.MeshBasicMaterial({color: 0x660000});
-        var BoxGeometry = new THREE.BoxGeometry( 1, 1, 2 );
+        var BoxGeometry = new THREE.BoxGeometry( 2, 2, 2 );
         for (var i = 0 ; i < data.length- 1; i++) {
  
             // calculate the position where we need to start the sphere
@@ -119,7 +119,7 @@ var addDensity = function (data) {
         }
         // create a new mesh, containing all the other meshes.
         var total = new THREE.Mesh(geom,new THREE.MeshBasicMaterial({
-          color: 0x660000,
+          color: 0xff0000,
           morphTargets: true
         }));
  
