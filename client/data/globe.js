@@ -4,7 +4,9 @@ var container, controls;
     var mouseX = 0, mouseY = 0;
     var windowHalfX = window.innerWidth / 2;
     var windowHalfY = window.innerHeight / 2;
-    var data = [-7.18, 37.3];
+    // var data = [-7.18, 37.3];
+    var data = getLocation();
+    data = data.slice(-500);
     var animateId;
 var init = function () {
         container = document.getElementById( 'container' );
@@ -96,34 +98,33 @@ var addDensity = function (data) {
         var geom = new THREE.Geometry();
         // material to use for each of our elements. Could use a set of materials to
         // add colors relative to the density. Not done here.
-        var cubeMat = new THREE.MeshLambertMaterial();
-        cubeMat.color = new THREE.Color( 0xff0000 );
-        // for (var i = 0 ; i < data.length-1 ; i++) {
+        // var sphereMat = new THREE.MeshBasicMaterial({color: 0x660000});
+        var BoxGeometry = new THREE.BoxGeometry( 2, 2, 2 );
+        for (var i = 0 ; i < data.length- 1; i++) {
  
-            var value = parseFloat(1000); //make it bigger!
- 
-            // calculate the position where we need to start the cube
-            var position = latLongToVector3(data[0], data[1], 200, 2);
-            // create the cube
-            var cube = new THREE.Mesh(new THREE.SphereGeometry(3, 10, 10), cubeMat);
- 
-            // position the cube correctly
-            cube.lookAt( new THREE.Vector3(0,0,0) );
- 
+            // calculate the position where we need to start the sphere
+            var position = latLongToVector3(data[i][0], data[i][1], 200, 1);
+            // create the sphere
+            var box = new THREE.Mesh(BoxGeometry);
+            // position the box correctly
+            box.lookAt( new THREE.Vector3(0,0,0) );
+            box.position.x = position.x;
+            box.position.y = position.y;
+            box.position.z = position.z;
+            // scene.add(box);
+            box.updateMatrix();
+            geom.merge( box.geometry, box.matrix ); 
             // // merge with main model
-            // THREE.GeometryUtils.merge(geom,cube);
-        // }
-        console.log(position);
-        console.log(cube.position);
+            // THREE.GeometryUtils.merge(geom,sphere);
+        }
         // create a new mesh, containing all the other meshes.
-        var total = new THREE.Mesh(geom,new THREE.MeshFaceMaterial());
+        var total = new THREE.Mesh(geom,new THREE.MeshBasicMaterial({
+          color: 0xff0000,
+          morphTargets: true
+        }));
  
         // and add the total mesh to the scene
-        // scene.add(total);
-        scene.add(cube);
-        cube.position.x = position.x;
-        cube.position.y = position.y;
-        cube.position.z = position.z;
+        scene.add(total);
 };
 
 init();
