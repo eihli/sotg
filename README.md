@@ -2,45 +2,69 @@
 
 # Project Name
 
-> Essoteegee
+> SOTG
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Medhir Bhargava
+  - __Scrum Master__: Michael Borglin
+  - __Development Team Members__: Sarah Yu, Michael Borgline, Medhir Bhargava, Eric Ihli, 
 
 ## Table of Contents
 
-1. [Usage](#Usage)
+1. [About](#About)
 1. [Requirements](#requirements)
+1. [Getting Started](#getting-started)
 1. [Contributing](#contributing)
 1. [Style Guide](#style-guide)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Tasks](#tasks)
-1. [Docker](#docker)
-  1. [Common Docker Error Messages](#common-docker-error-messages)
 1. [Team](#team)
 
-## Usage
+## About
 
-> Some usage instructions
+A RESTful API that provides a user-friendly way to collect and analyze Twitter data.
 
-## Development
+Visit [http://sotg.xyz](http://sotg.xyz) to see an example deployment.
 
-### Requirements
+## Requirements
 
-- Node 0.10.x
+- Node.js 0.10.x
 - MySQL
+- Twitter Dev API Key [https://apps.twitter.com/](https://apps.twitter.com/)
 
-### Installing Dependencies
+## Getting Started
+- Clone the repo
+- Install dependencies
+  - ``sudo npm install -g bower``
+  - ``npm install``
+  - ``bower install``
+- Start MySQL if it's not started and create database
+  - ``mysql.server start``
+  - mysql -u<mysql_user> -p<mysql_pass> -e 'create database sotg'
+- Create config.js files based off of the following examples:
+  - server/config/config.example.js
+  - streaming/config/config.example.js
+- Spin up servers
+  - ``node server/servers.js``
+  - ``node tweetHandler/server.js``
+  - ``node streaming/server.js``
+- Register keywords via web portal
+  - Visit 'localhost:8000' in your browser
+  - Sign up
+  - Visit profile page to add/remove keywords that will then be collec TODO: COme back to thsi
+  - Refer to the [documentation](http://localhost:8000/documentation) or the [query builder](http://localhost:8000/queryBuilder/search) to learn how to retrieve data with the API
 
-- ``sudo npm install -g bower``
-- ``npm install``
-- ``bower install``
-- Good to go
+## Contributing
 
+- Fork repo
+- Clone from fork
+- Install Grunt
+  - ``npm install grunt-cli -g``
+- When you make changes, run the following commands before submitting a pull request
+  - ``grunt minify``
+  - ``grunt test``
 
 ### Initialize Dev Environment
 - Copy start.example.sh to start.sh and edit the environment variables to match your local machine
