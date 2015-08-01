@@ -47,16 +47,26 @@ var getApiKey = module.exports.getApiKey = function(username, cb) {
 
 var searchDbForTweets = module.exports.searchDbForTweets = function(keyword, cb) {
   var tweets = [];
-  new Tweet()
-    .query('where', 'text', 'like', '%' + keyword + '%')
-    .fetchAll()
-    .then(function(collection) {
-      collection = collection.slice(-1000);
-      collection.forEach(function(tweet) {
-        tweets.push(tweet);
-      });
-      cb(tweets);
-    })
+  db.knex.raw('select * from tweets where match (text) against (\'%' + keyword + '%\')')
+  .then(function(resp) {
+    console.log(resp);
+    collection = resp[0].slice(-1000);
+    collection.forEach(function(tweet) {
+      tweets.push(tweet);
+    });
+    cb(tweets);
+  })
+  // var tweets = [];
+  // new Tweet()
+  //   .query('where', 'match', 'text', 'against', keyword)
+  //   .fetchAll()
+  //   .then(function(collection) {
+  //     collection = collection.slice(-1000);
+  //     collection.forEach(function(tweet) {
+  //       tweets.push(tweet);
+  //     });
+  //     cb(tweets);
+  //   })
     .catch(function(err) {
       err = err || "Could not fetch tweets from db.";
       console.log(err);
